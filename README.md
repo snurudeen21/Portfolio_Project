@@ -34,6 +34,34 @@ This file serves as the entry point for running the Flask application.
 1. **Import the Application Factory**:
    
    ```python
-   from app import create_app
+   from app import create_app ```
+
+## Forms
+
+The application uses **Flask-WTF** for handling forms and form validation. Below is a summary of the forms available:
+
+1. **RegistrationForm**:
+   - Fields: `username`, `email`, `password`, `confirm_password`
+   - Custom validation ensures unique usernames and emails during registration.
+
+2. **LoginForm**:
+   - Fields: `email`, `password`, `remember`
+   - Used for logging in users.
+
+3. **UpdateAccountForm**:
+   - Fields: `username`, `email`
+   - Allows users to update their account information.
+   - Custom validation ensures that updated usernames and emails are unique.
+
+4. **UpdatePasswordForm**:
+   - Fields: `current_password`, `new_password`, `confirm_password`
+   - Used for changing the user's password.
+   - Custom validation ensures that the current password is correct before allowing a password change.
+
+### Notes:
+- All form data is validated before being processed.
+- Custom validators are implemented to ensure that usernames and emails remain unique in the database.
+
+
 
 
