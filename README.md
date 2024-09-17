@@ -22,9 +22,9 @@ This is a Flask web application that demonstrates a basic setup with user authen
 - Flask-Migrate
 
 You can install the required packages using pip:
-bash
+```bash
 pip install flask flask-sqlalchemy flask-bcrypt flask-login flask-migrate
-
+```
 ## `app.py`
 
 This file serves as the entry point for running the Flask application.
