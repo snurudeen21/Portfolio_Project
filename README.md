@@ -63,6 +63,45 @@ The application uses **Flask-WTF** for handling forms and form validation. Below
 - All form data is validated before being processed.
 - Custom validators are implemented to ensure that usernames and emails remain unique in the database.
 
+## Models
 
+### User Model
 
+The `User` model represents the user entity in the application and is responsible for handling authentication-related tasks such as password hashing and validation.
 
+- **Fields**:
+  - `id`: A unique identifier for each user.
+  - `username`: The user's unique username, limited to 20 characters.
+  - `email`: The user's unique email address, limited to 120 characters.
+  - `password_hash`: A hashed version of the user's password for security purposes.
+
+- **Methods**:
+  - `set_password(password)`: Hashes the password using Flask-Bcrypt and stores it in the `password_hash` field.
+  - `check_password(password)`: Validates a provided password against the stored password hash.
+  - `__repr__()`: Returns a string representation of the `User` object for easier debugging.
+
+### User Loader
+
+The `load_user` function is used by Flask-Login to load a user from the database based on their user ID.
+
+```python
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+```
+
+## Routes
+
+### User Routes:
+1. **Home**: `/home` — Renders the home page or the weather page if logged in.
+2. **Register**: `/register` — Allows new users to register.
+3. **Login**: `/login` — Authenticates users and logs them in.
+4. **Logout**: `/logout` — Logs users out.
+5. **Account**: `/account` — Allows users to update account info and change passwords.
+
+### Weather Routes:
+1. **Get Location**: `/get_location` — Fetches latitude and longitude of a given place.
+2. **Weather Report**: `/weather_report` — Fetches and displays the weather report for the selected place.
+
+### Utility Routes:
+1. **Data Migration**: `/migrate-data` — Migrates and updates user data (for development).
