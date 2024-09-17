@@ -34,7 +34,8 @@ This file serves as the entry point for running the Flask application.
 1. **Import the Application Factory**:
    
    ```python
-   from app import create_app ```
+   from app import create_app
+   ```
 
 ## Forms
 
