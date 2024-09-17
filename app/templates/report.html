@@ -1,0 +1,30 @@
+{% extends "home.html" %} {% block content %}
+<h1>Weather Report for {{ place }}</h1>
+
+<table border="2" style="margin-bottom: 30px">
+  <thead>
+    <tr>
+      <th style="width: 130px">Date</th>
+      <th>Summary</th>
+      <th>Min Temperature (°C)</th>
+      <th>Max Temperature (°C)</th>
+      <th>Wind Speed (m/s)</th>
+      <th>Precipitation (mm)</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for day in daily_weather %}
+    <tr>
+      <td>{{ day['day'] }}</td>
+      <td>{{ day['summary'] }}</td>
+      <td>{{ day['all_day']['temperature_min'] }}</td>
+      <td>{{ day['all_day']['temperature_max'] }}</td>
+      <td>{{ day['all_day']['wind']['speed'] }}</td>
+      <td>{{ day['all_day']['precipitation']['total'] }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<a href="/login">Back to Map</a>
+{% endblock %}

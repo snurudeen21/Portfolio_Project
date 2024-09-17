@@ -1,0 +1,108 @@
+{% extends "home.html" %} {% block content %}
+<head>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    #map {
+      height: 600px;
+      width: 100%;
+    }
+  </style>
+</head>
+<h1>World Map</h1>
+<form id="locationForm" style="display: inline-block">
+  <label for="place">Enter a location:</label>
+  <input
+    type="text"
+    id="place"
+    name="place"
+    placeholder="e.g. Lagos"
+    required
+  />
+  <input
+    type="text"
+    id="location"
+    name="location"
+    placeholder="e.g., 9.0765, 7.3986"
+    readonly
+  />
+  <button type="submit">Show on Map</button>
+</form>
+<button type="submit" onclick="window.location.href='/weather_report'">
+  Show Weather Report
+</button>
+
+<script>
+  let typingTimer;
+  const doneTypingInterval = 3000; // 3 seconds delay before sending request
+  const placeInput = document.getElementById("place");
+
+  // When user types in the place input field
+  placeInput.addEventListener("input", function () {
+    clearTimeout(typingTimer);
+    typingTimer = setTimeout(fetchLocation, doneTypingInterval);
+  });
+
+  // Function to fetch location from the backend
+  async function fetchLocation() {
+    const place = placeInput.value;
+
+    // Send the place to the backend via POST
+    const response = await fetch("/get_location", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ place: place }),
+    });
+
+    // Parse the response JSON and update the location field
+    const data = await response.json();
+    if (data.latitude && data.longitude) {
+      document.getElementById(
+        "location"
+      ).value = `${data.latitude}, ${data.longitude}`;
+    } else {
+      document.getElementById("location").value = "Location not found";
+    }
+  }
+</script>
+
+<div id="map"></div>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+  // Initialize the map and set its view to Nigeria
+  var map = L.map("map").fitBounds([
+    [4.069086, 2.676922], // Southwest coordinates
+    [13.885655, 14.678014], // Northeast coordinates
+  ]);
+
+  // Add a tile layer to the map (OpenStreetMap tiles)
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution:
+      '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  }).addTo(map);
+
+  // Function to add a marker at a specific location
+  function addMarker(lat, lng, message) {
+    L.marker([lat, lng], { color: "red" })
+      .addTo(map)
+      .bindPopup(message)
+      .openPopup();
+  }
+
+  // Handle form submission
+  document
+    .getElementById("locationForm")
+    .addEventListener("submit", function (event) {
+      event.preventDefault();
+      var locationInput = document.getElementById("location").value;
+      var coords = locationInput.split(",").map(Number);
+      if (coords.length === 2 && !isNaN(coords[0]) && !isNaN(coords[1])) {
+        addMarker(coords[0], coords[1], "User Location");
+        map.setView([coords[0], coords[1]], 10);
+      } else {
+        alert("Please enter valid coordinates (latitude, longitude).");
+      }
+    });
+</script>
+{% endblock %}
