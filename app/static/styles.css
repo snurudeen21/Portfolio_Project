@@ -1,0 +1,60 @@
+/* Background video container */
+      .weather-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        overflow: hidden;
+      }
+
+      /* Style for the video to fit the screen */
+      video {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        min-width: 100%;
+        min-height: 100%;
+        width: auto;
+        height: auto;
+        z-index: -1;
+        transform: translate(-50%, -50%);
+        object-fit: cover;
+        filter: brightness(0.8); /* Slightly dim the background */
+      }
+
+      /* Overlay to darken background slightly for readability */
+      .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.3);
+        z-index: 1;
+      }
+
+      .form-control-label {
+        color: red;
+      }
+
+
+
+      legend {
+        color: blue;
+        font-weight: bold;
+      }
+
+
+      .form-group.form-check {
+        color: yellow;
+      }
+
+      .text-muted {
+        color: yellow;
+      }
+
+      .lead {
+        color: yellow;
+      }

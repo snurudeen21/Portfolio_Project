@@ -11,7 +11,9 @@
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="{{ url_for('main.home') }}">Weather House</a>
+      <a class="navbar-brand" href="{{ url_for('main.home') }}"
+        >Weather House</a
+      >
       <button
         class="navbar-toggler"
         type="button"
@@ -45,14 +47,54 @@
         </ul>
       </div>
     </nav>
+
+    <!-- Video background container -->
+    <div class="weather-background">
+      <div class="overlay"></div>
+      <!-- Rain Video -->
+      <video id="rain-video" autoplay muted loop>
+        <source src="static/rain.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+
+      <!-- Sun Video (initially hidden) -->
+      <video id="sun-video" autoplay muted loop style="display: none">
+        <source src="static/sun.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+    </div>
+
     <div class="container">
       {% with messages = get_flashed_messages(with_categories=true) %} {% if
       messages %} {% for category, message in messages %}
       <div class="alert alert-{{ category }}">{{ message }}</div>
       {% endfor %} {% endif %} {% endwith %} {% block content %}{% endblock %}
     </div>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+      // JavaScript to toggle between sun and rain videos
+      let rainVideo = document.getElementById("rain-video");
+      let sunVideo = document.getElementById("sun-video");
+      let currentWeather = "rain"; // Start with rain
+
+      function toggleWeatherVideo() {
+        if (currentWeather === "rain") {
+          rainVideo.style.display = "none";
+          sunVideo.style.display = "block";
+          currentWeather = "sun";
+        } else {
+          sunVideo.style.display = "none";
+          rainVideo.style.display = "block";
+          currentWeather = "rain";
+        }
+      }
+
+      // Change weather video every 10 seconds
+      setInterval(toggleWeatherVideo, 10000);
+    </script>
   </body>
 </html>

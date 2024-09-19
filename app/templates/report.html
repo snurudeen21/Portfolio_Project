@@ -1,7 +1,11 @@
 {% extends "home.html" %} {% block content %}
-<h1>Weather Report for {{ place }}</h1>
 
-<table border="2" style="margin-bottom: 30px">
+<head>
+  <link rel="stylesheet" href="static/styles.css" type="text/css" />
+</head>
+<h1 style="color: blanchedalmond">Weather Report for {{ place }}</h1>
+
+<table border="2" style="margin-bottom: 30px; color: whitesmoke">
   <thead>
     <tr>
       <th style="width: 130px">Date</th>
